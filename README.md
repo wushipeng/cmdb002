@@ -1,13 +1,15 @@
-##cmdb##
+cmdb
+========
 
-
-###cmdb002为server,cmdb001为client
-
-###使用教程
+cmdb002为server,cmdb001为client
+------------------------
+使用教程
+-------
 - Python3.5
 - django,paramiko,xlwt模块
 
-###功能
+功能
+-------
 - 资产查看
 - 资产添加
 - 资产修改
@@ -17,6 +19,7 @@
 - 所有资产导出到excel表
 - 后续再说...
 
-##截图查看
+截图查看
+---------
 
-http://www.cnblogs.com/wspblog/p/7151137.html
+[http://www.cnblogs.com/wspblog/p/7151137.html](http://www.cnblogs.com/wspblog/p/7151137.html)
