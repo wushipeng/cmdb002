@@ -1,7 +1,7 @@
 cmdb
 ========
 
-cmdb002为server,cmdb001为client
+cmdb002为server------cmdb001为client
 ------------------------
 使用教程
 -------
