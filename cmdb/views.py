@@ -76,8 +76,10 @@ def asset_info(request):
             if not data_find[key] or key == "csrfmiddlewaretoken":
                 continue
             find_condition[key] = data_find[key]
+        print(find_condition)
         # print(bool(find_condition))
         asset_all = models.Asset.objects.filter(**find_condition)
+        print(asset_all)
         if not find_condition:
             asset_all = models.Asset.objects.all()
         asset_all = page_trun(request, asset_all)

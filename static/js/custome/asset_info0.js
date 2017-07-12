@@ -74,20 +74,22 @@
         });
         $(function () {
             var eee = $("span[name='ip']").text();
-            console.log(store.getItem('hostname'));
+            // console.log(store.getItem('hostname'));
             $("input[name='ip']").val(store.getItem('ip'));
             $("input[name='hostname']").val(store.getItem('hostname'));
             $("input[name='indistinct']").val(store.getItem('indistinct'));
-            console.log(store.getItem('indistinct'))
+            // console.log(store.getItem('indistinct'));
             if ($("input[name='ip']").val().length > 0) {
                 $('#clear_ip').removeAttr("hidden");
             }
-            else if ($("input[name='hostname']").val().length > 0) {
+            if ($("input[name='hostname']").val().length > 0) {
+                console.log("21e123")
                 $('#clear_hostname').removeAttr("hidden")
             }
             else if ($("input[name='indistinct']").val().length > 0) {
                 $('#clear_search').removeAttr("hidden");
             }
+            console.log($("input[name='hostname']").val().length)
         });
         function change_ip() {
             $('#clear_ip').removeAttr("hidden")

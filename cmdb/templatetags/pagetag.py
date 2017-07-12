@@ -19,7 +19,7 @@ def limit_page(current_page, pg):
             page_re = """<li>
                             <a href="?page=%s"> %s </a>
                          </li>""" % (pg, pg)
-        print(page_re)
+
         return format_html(page_re)
     else:
         return ""
