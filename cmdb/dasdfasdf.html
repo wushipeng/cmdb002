@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+
+
+
+
+
+
+
+{#    <link rel="stylesheet" type="text/css" href="../static/artDialog-master/css/dialog.css">#}
+
+    <script type="text/javascript" src="../static/artDialog-master/lib/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="../static/artDialog-master/dist/dialog.js"></script>
+
+    <script type="text/javascript">
+        function test1(){
+            var d = dialog({
+                title:'欢迎',
+                content:'欢迎使用 artDialog v6对话框组件！'
+            });
+            d.show();
+        }
+
+        function test2(){
+            var d = dialog({
+                title:'欢迎',
+                content:'欢迎使用 artDialog v6对话框组件！'
+            });
+            d.showModal();
+        }
+
+        function test3(obj){
+            var d = dialog({
+                content: 'Hello World!',
+                quickClose: true// 点击空白处快速关闭
+            });
+            d.show(obj);
+        }
+
+        function test4(){
+            var d = dialog({
+                title: '欢迎',
+                content: '欢迎使用 artDialog 对话框组件！',
+                ok: function () {},
+                statusbar: '<label><input type="checkbox">不再提醒</label>'
+            });
+            d.show();
+        }
+
+        function test5(){
+            dialog({
+                button:[{
+                    value: '同意',
+                    callback: function () {
+                        this
+                        .content('你同意了');
+                        return false;
+                    },
+                    autofocus: true
+                },{
+                    value: '不同意',
+                    callback: function () {
+                        alert('你不同意')
+                    }
+                },{
+                    id: 'button-disabled',
+                    value: '无效按钮',
+                    disabled: true
+                },{
+                    value: '关闭我'
+                }]
+            }).show();
+        }
+    </script>
+  </head>
+
+  <body>
+    <input type="button" value="普通对话框" onclick="javascript:test1();">
+    <input type="button" value="模态对话框" onclick="javascript:test2();">
+    <input type="button" value="气泡浮层" onclick="test3(this);">
+    <input type="button" value="statusbar" onclick="javascript:test4();">
+    <input type="button" value="自定义按钮组" onclick="javascript:test5();">
+  </body>
+</html>
+
+
+
+
+
+</body>
+</html>

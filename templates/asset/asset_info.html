@@ -1,0 +1,247 @@
+{% extends "basic/index.html" %}
+{% load pagetag %}
+
+
+
+
+
+{% block header %}
+    服务器列表
+    <hr style="border-top:2px solid black">
+    <span style="margin-bottom: -100px;font-size: 20px;font-weight: 400;   color: #4a4a4a;margin-left: -9px;">
+        <i class="fa fa-arrow-right " style="font-size:20px;font-weight: 400;color:#4a4a4a;  margin-top: 3px;">
+        </i>精确查找</span>
+
+{% endblock %}
+{% block link %}
+    <link href="/static/css/custome/asset0.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+
+    <!-- 分别搜索 -->
+
+
+    <div class="panel-body">
+
+        <span name="ip"></span>
+        <span hidden name="hostname"></span>
+        <form action="" method="POST" class="form-horizontal">
+
+            {% csrf_token %}
+            <label class="col-sm-1 control-label" for="input-small"
+                   style="margin-top: -21px;margin-left: 5px;display: inline">IP地址</label>
+            <div class="col-sm-2" style="display: inline">
+                <input oninput="change_ip()" type="text" id="input-small" name="ip"
+                       class="form-control input-sm assetinfo_06" placeholder="例:192.168.1.1">
+                <span hidden id="clear_ip" class="assetinfo_04">
+                    <i class="fa fa-times-circle"></i>
+                </span>
+            </div>
+
+            <label class="col-sm-1 control-label" for="input-small"
+                   style="margin-top: -20px;margin-left: -40px;display: inline">主机名</label>
+            <div class="col-sm-2" style="display: inline">
+                <input oninput="change_hostname()" type="text"
+                       id="input-small" name="hostname" class="form-control input-sm assetinfo_07">
+                <span hidden class="assetinfo_01" id="clear_hostname">
+                    <i class="fa fa-times-circle"></i></span>
+
+            </div>
+
+
+            <div class="col-sm-2" style="display: inline">
+                <button type="submit" id="find"
+                        class="btn btn-primary" style="margin: -30px 20px auto 0px;">查找
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+    <!--这是竖线-->
+    <div class="assetinfo_08">
+
+        <table style="border: 1px dotted #a5a5a5;height: 100px;">
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+    </div>
+
+
+
+    <!-- end -->
+
+    <!-- 搜索 -->
+    <span class="assetinfo_09"><i
+            class="fa fa-arrow-right" style="font-size:20px;margin-top: 3px;"></i>模糊搜索</span>
+
+    <div class="col-sm-4" style="margin-top: -82px;margin-right:8%;width: 207px;  float: right">
+
+        <div class="panel-body" style="width: 261px;">
+            <form action="" method="POST" class="form-horizontal ">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="col-md-10" style="width: 100%">
+                        <div class="input-group">
+
+                            <input oninput="change_search()" type="search" id="input2-group2" name="indistinct"
+                                   class="form-control"
+                                   placeholder="Search" style="padding-right: 15px;">
+                             <span hidden id="clear_search" class="assetinfo_10">
+                                 <i class="fa fa-times-circle"></i>
+                             </span>
+
+
+                            <span class="input-group-btn">
+                            <button type="submit" id="search" class="btn btn-success"
+                                    style="margin-top: -26px;">搜索</button>
+                        </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <div style="clear: both"></div>
+
+
+    <!-- 资产数据 -->
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2><i class="fa fa-tasks"></i><span class="break"></span>
+                    <strong>机器的总数为: <span style="color: red">{{ asset.paginator.count }}</span> 台</strong>
+                </h2>
+                <a href="asset_add" target="_blank" style="position: absolute;right: 70px;">
+                    <button type="button" class="btn btn-success assetinfo_11"
+                            onmouseover="this.style.backgroundColor='#526da0'" ;
+                            onmouseout="this.style.backgroundColor='#225ca0'">新增
+                    </button>
+                    <a href="/asset_export" target="_blank" title="导出所有的资产" style="color: #4e2f7c;font-weight: bold">导出</a>
+                </a>
+                <div class="panel-actions">
+
+                    <a href="table.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                    <a href="table.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped table-condensed table-hover">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" value=""></th>
+                        <th>主机名</th>
+                        <th>IP地址</th>
+                        <th>系统</th>
+                        <th>内存</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for asset in asset %}
+
+                        <tr>
+                            <td><input type="checkbox" value=""></td>
+                            <td>{{ asset.hostname }}</td>
+                            <td>{{ asset.ip }}</td>
+                            <td>{{ asset.platform }}</td>
+                            <td>{{ asset.memory }}</td>
+                            <td style="width: 15.3%">
+
+                                <span class="label label-warning"
+                                      style="padding-right: 2px;margin-right: 5px;background-color: #227fc5">
+                                    <a href="asset_edit/{{ asset.id }}" target="_blank" style="text-decoration: none;">
+
+                                    <i class="fa fa-edit" style="font-size: 14px;color: #ffffff;"></i>
+                                    </a>
+                                </span>
+
+                                <span class="label label-danger">
+
+                                    <a id="3" url="{{ asset.id }}" onclick="deleteasset(this);" class="assetinfo_12">
+
+                                    <i class="fa fa-times" style="font-size: 16px;color: #ffffff;"></i>
+
+                                    </a>
+                            </span>
+
+                                <span class="label label-success" style="margin-left: 5px;margin-right: -66px;"><a
+                                        href="asset_details/{{ asset.id }}" target="_blank"
+                                        style="display: inline-block;text-decoration:none;color: #ffffff">详细</a></span>
+                                <span class="label label-info" style="margin-left: 66px;margin-right: -54px;">
+                                    <a href="asset_details" target="_blank"
+                                       style="display: inline-block;text-decoration:none;color: #ffffff">更新</a>
+                                </span>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <ul class="pagination" style="margin-left: 350px;">
+                    {% if asset.has_previous %}
+                        <li><a href="?page={{ asset.previous_page_number }}">上一页</a></li>
+                    {% else %}
+
+                        <li><a disabled="disabled">上一页</a></li>
+                    {% endif %}
+
+
+                    {% for page in asset.paginator.page_range %}
+
+                        {% limit_page asset.number page %}
+                    {% endfor %}
+                    {% if asset.has_next %}
+                        <li>
+                            <a href="?page={{ asset.next_page_number }}">下一页</a>
+                        </li>
+
+                    {% else %}
+                        <li disabled="disabled">
+                            <a>下一页</a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+    </div>
+    <!-- end -->
+
+
+
+    <!-- end -->
+{% endblock %}
+
+
+{% block footscript %}
+    <script src="/static/artDialog-master/lib/jquery-1.10.2.js"></script>
+
+    <script src="/static/artDialog-master/dist/dialog.js"></script>
+    <script src="/static/js/js.cookie.js"></script>
+    <script src="/static/js/jquery-ui.js"></script>
+
+
+
+    <script src="/static/js/custome/asset_info0.js" type="text/javascript">
+
+
+
+    </script>
+
+
+{% endblock %}

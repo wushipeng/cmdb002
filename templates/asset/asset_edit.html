@@ -1,0 +1,123 @@
+{% extends "basic/assetEdit_basic.html" %}
+{% block title %}
+    资产管理系统 - 添加资产
+{% endblock %}
+{% block header %}
+    资产修改
+{% endblock %}
+
+{% block content %}
+<div class="col-md-6" style="margin-left:15%;width: 75%;">
+
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+            <form id="add_form" enctype="multipart/form-data" class="form-horizontal ">
+
+                <input type="hidden" name="id" value="{{ data.id }}">
+                <span style="display: inline-block;margin-left: 26%;margin-bottom: 24px;color: #334b8b"> 带<b style="color: red">*</b>为必填项</span>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="text-input">IP</label>
+                    <div class="col-md-9">
+                        <input type="text" id="text-input" name="ip" class="form-control" placeholder="192.168.1.1" value="{{ data.ip }}">
+
+                    </div>
+                    <span style="display:inline-block;color: red;margin-top: 5px;font-size: 22px;">*</span>
+                    <span errortag="ip"
+                                      style="float: right;margin-right: 20%;margin-top: 4px;color: red"></span>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="email-input">主机名</label>
+                    <div class="col-md-9">
+                        <input type="text" id="email-input" name="hostname" class="form-control" placeholder="bjtest01" value="{{ data.hostname }}">
+                    </div>
+                    <span style="display:inline-block;color: red;margin-top: 5px;font-size: 22px;">*</span>
+                    <span errortag="hostname"
+                                      style="float: right;margin-right: 20%;margin-top: 4px;color: red"></span>
+                </div>
+                <div class="form-group" style="margin-bottom: 17px;">
+                    <label class="col-md-3 control-label" for="password-input">CPU</label>
+                    <div class="col-md-9">
+                        <input type="text" id="password-input" name="cpu_mode" class="form-control" placeholder="Intel(R) Xeon(R) CPU E5-2620 v2 @ 2.10GHz" value="{{ data.cpu_mode }}">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 17px;">
+                    <label class="col-md-3 control-label" for="password-input">内存</label>
+                    <div class="col-md-9">
+                        <input type="text" id="password-input" name="memory" class="form-control" placeholder="1G" value="{{ data.memory }}">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 17px;">
+                    <label class="col-md-3 control-label" for="password-input">操作系统</label>
+                    <div class="col-md-9">
+                        <input type="text" id="password-input" name="platform" class="form-control" placeholder="CentOS release 6.4 (Final)" value="{{ data.platform }}">
+                    </div>
+                </div>
+                <br>
+            </form>
+        </div>
+        <div class="panel-footer" style="padding-left: 82.5%">
+
+            <button type="reset" class="btn btn-sm btn-danger" style="float: right;margin-right: -8px;"><i class="fa fa-ban"></i> 清空</button>
+            <button type="button" class="btn btn-sm btn-success" style="float: right;margin-right: 9px;" id="submit_data"><i class="fa fa-dot-circle-o"></i> 提交</button>
+            <div style="clear: both"></div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block jsfoot %}
+    <script src="/static/artDialog-master/dist/dialog.js"></script>
+    {#<script src="/static/js/jquery.1.9.js"></script>#}
+    <script src="/static/js/jquery.cookie.js"></script>
+    <script>
+
+
+
+
+        $("#submit_data").click(function () {
+            $.ajax({
+                url: "/asset_edit/{{ data.id }}",
+                data: $("#add_form").serialize(),
+                type: "POST",
+                dataType: "JSON",
+                traditional: true,
+                success: function (avg) {
+                    $("span[errortag]").text("");
+
+                    var error = JSON.parse(avg["error"]);
+
+                    if (avg["status"]) {
+
+                        var d = dialog({
+                            content: "<span style='font-weight:bold;color:#4B4B4B;font-size:30px;'>修改成功</span>",
+                            background:'#000',
+                        });
+                        d.show();
+                        setTimeout(function () {
+                            d.close().remove();
+                        }, 3000);
+                    }
+                    else {
+
+                        console.log(error);
+                        $("span[errortag]").text("");
+                        var item;
+                        for (item in error) {
+
+
+                            $("span[errortag="+item+"]").text(error[item][0]["messages"][0]);
+                        }
+
+                    }
+                },
+                error: function () {
+
+                }
+            });
+
+        });
+    </script>
+{% endblock %}
